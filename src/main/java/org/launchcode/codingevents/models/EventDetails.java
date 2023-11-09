@@ -1,13 +1,11 @@
 package org.launchcode.codingevents.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-/**
- * Created by Chris Bay
- */
 @Entity
 public class EventDetails extends AbstractEntity {
 
@@ -18,12 +16,15 @@ public class EventDetails extends AbstractEntity {
     @Email(message = "Invalid email. Try again.")
     private String contactEmail;
 
-    public EventDetails(@Size(max = 500, message = "Description too long!") String description, @NotBlank(message = "Email is required") @Email(message = "Invalid email. Try again.") String contactEmail) {
+    @OneToOne(mappedBy = "eventDetails")
+    private Event event;
+
+    public EventDetails(){}
+
+    public EventDetails(String description, String contactEmail) {
         this.description = description;
         this.contactEmail = contactEmail;
     }
-
-    public EventDetails() {}
 
     public String getDescription() {
         return description;
